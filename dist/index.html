@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="assets/images/favicon.ico">
+  <title>City Apps Portal</title>
+
+  <link href="css/bundle.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="main" class="container" >
+    <video id="background-video" loop muted autoplay poster="assets/images/background.png">
+        <source src="assets/city-skyline.webm" type="video/webm">
+    </video>
+    <form id="search-form">
+      <div id="purpose-group" class="form-group">
+        <div id="purpose-dropdown" class="dropdown">
+          <label id="purpose-label" data-genreid="6003"><span id="purpose-text">Travel</span><i id="dropdown-icon" class="fa fa-caret-down"></i></label>
+          <ul id="purpose-list" class="dropdown-list">
+            <li class="dropdown-item" data-genreid="6003">Travel</li>
+            <li class="dropdown-item" data-genreid="6000">Business</li>
+            <li class="dropdown-item" data-genreid="6023">Food and Drink</li>
+            <li class="dropdown-item" data-genreid="6016">Entertainment</li>
+            <li class="dropdown-item" data-genreid="6011">Music</li>
+            <li class="dropdown-item" data-genreid="6012">Lifestyle</li>
+            <li class="dropdown-item" data-genreid="6004">Sports</li>
+            <li class="dropdown-item" data-genreid="6005">Social Networking</li>
+            <li class="dropdown-item" data-genreid="6009">News</li>
+            <li class="dropdown-item" data-genreid="6015">Finance</li>
+            <li class="dropdown-item" data-genreid="6020">Medical</li>
+            <li class="dropdown-item" data-genreid="6013">Health and Fitness</li>
+            <li class="dropdown-item" data-genreid="6010">Navigation</li>
+            <li class="dropdown-item" data-genreid="6001">Weather</li>
+            <li class="dropdown-item" data-genreid="6002">Utilities</li>
+            <li class="dropdown-item" data-genreid="6008">Photo and Video</li>
+            <li class="dropdown-item" data-genreid="6014">Games</li>
+            <li class="dropdown-item" data-genreid="6007">Productivity</li>
+            <li class="dropdown-item" data-genreid="6017">Education</li>
+            <li class="dropdown-item" data-genreid="6018">Books</li>
+            <li class="dropdown-item" data-genreid="6021">Newsstand</li>
+            <li class="dropdown-item" data-genreid="6006">Reference</li>
+            <li class="dropdown-item" data-genreid="6022">Catalogs</li>
+          </ul>
+        </div>
+      </div>
+      <div id="city-group" class="form-group">
+          <div id="city-input-container">
+            <input type="text" id="city-input" autofocus />
+            <i id="locate-btn" class="fa fa-location-arrow fa-2x"></i>
+          </div>
+      </div>
+      <button id="search-btn" type="button">Search </button>
+    </form>
+  </div>
+
+  <div id="apps" class="container">
+    <div id="search-loader" class="loader" style="display: none"></div>
+    <p id="message"></p>
+    <button id="top-btn" type="button">Back To Top</button>
+    <div id="apps-list">
+    </div>
+  </div>
+
+<!-- JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/50cf56ad97.js"></script>
+
+<script src="js/main.min.js"></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAl9gZ6RWm13LN6Z4Vg2n_FdfkrXU2C1lQ&libraries=places&callback=initAutocomplete" async defer></script>
+</body>
+</html>

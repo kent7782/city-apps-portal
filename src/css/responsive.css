@@ -1,0 +1,80 @@
+/* Responsive */
+@media only screen and (min-width: 1200px) {
+  #apps {
+    padding: 20px 60px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #search-form #city-group #city-input-container #city-input {
+    font-size: 48px;
+  }
+  #apps .app-item .app-description {
+    margin-left: inherit;
+    margin-top: 40px;
+  }
+  #apps .app-item .app-download {
+    margin-left: inherit;
+  }
+}
+@media only screen and (max-width: 578px) {
+  #search-form #city-group {
+    height: 80px;
+  }
+  #search-form #city-group #city-input-container #city-input {
+    font-size: 36px;
+  }
+  #search-form #city-group #city-input-container #locate-btn {
+    font-size: 24px;
+  }
+  #search-form #purpose-group #purpose-dropdown #purpose-label {
+    font-size: 32px;
+  }
+  .pac-container .pac-item {
+    font-size: 16px;
+    padding: 10px;
+  }
+  .pac-container .pac-item .pac-item-query {
+    font-size: 20px;
+  }
+  #message {
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 450px) {
+  #search-form #city-group #city-input-container #city-input {
+    font-size: 32px;
+  }
+  #search-form #purpose-group #purpose-dropdown #purpose-label {
+    font-size: 24px;
+  }
+  #apps {
+    padding: 20px 20px;
+  }
+  #apps .app-item .app-img {
+    width: 80px;
+    height: 80px;
+  }
+  #apps .app-item .app-title {
+    font-size: 18px;
+    margin-left: 100px;
+  }
+  #apps .app-item .app-rating {
+    margin-left: 100px;
+  }
+  #apps .app-item .app-description {
+    margin-top: 40px;
+  }
+  .pac-container .pac-item {
+    font-size: 14px;
+  }
+  .pac-container .pac-item .pac-item-query {
+    font-size: 18px;
+  }
+  #search-loader {
+    margin: 40px auto;
+    font-size: 6px;
+  }
+  #message {
+    font-size: 18px;
+  }
+}
