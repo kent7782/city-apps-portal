@@ -188,7 +188,12 @@ function formatCityInputText(formattedAddress, addressComponents, isCurrent) {
     currentCity = cityInputText;
   }
 
+  // Store the country code
   countryCode = lastComponent.toLowerCase();
+  // If last component is not the coutry code
+  if (countryCode.length > 2) {
+    countryCode = addressComponents[addressComponents.length - 2].short_name;
+  }
 
   return cityInputText;
 }
@@ -220,13 +225,15 @@ function searchApps() {
 function requestApps() {
   var term;
   var genreId = $('#purpose-label').data('genreid');
-  var city =  $('#city-input').val();
+  var cityInputValue =  $('#city-input').val();
 
-  if (city.indexOf(',') ===  -1) {
-    term = city;
+  if (cityInputValue.indexOf(',') ===  -1) {
+    term = cityInputValue;
   } else {
-    term = city.substring(0, city.indexOf(','));
+    term = cityInputValue.substring(0, cityInputValue.indexOf(','));
   }
+
+  term = encodeURIComponent(term);
 
   var requestUrl = 'https://itunes.apple.com/search?' +
                     'term=' + term +
