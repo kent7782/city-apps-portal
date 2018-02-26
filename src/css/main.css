@@ -14,7 +14,7 @@ body {
   box-sizing: border-box;
   height: 100vh;
 }
-#main {
+#main-container {
   background-color: #000000;
   position: relative;
   overflow: hidden;
@@ -27,7 +27,7 @@ body {
   min-height: 600px;
   color: #FAFAFA;
 }
-#main #background-video {
+#main-container #background-video {
   opacity: 0;
   position: absolute;
   top: 0;
@@ -179,30 +179,30 @@ body {
   background-color: #eeeeee;
 }
 /* Apps */
-#apps {
+#apps-container {
   display: none;
   background-color: #ffffff;
   max-width: 990px;
   padding: 20px 40px;
   margin: 0 auto;
 }
-#apps .app-item {
+#apps-container .app-item {
   position: relative;
 }
-#apps .app-item .app-img {
+#apps-container .app-item .app-img {
   border-radius: 20%;
   position: absolute;
   left: 0;
 }
-#apps .app-item .app-title {
+#apps-container .app-item .app-title {
   margin-left: 120px;
   font-size: 24px;
 }
-#apps .app-item .app-rating {
+#apps-container .app-item .app-rating {
   margin-left: 120px;
   font-size: 16px;
 }
-#apps .app-item .app-description {
+#apps-container .app-item .app-description {
   margin-left: 120px;
   display: -webkit-box;
   -webkit-line-clamp: 5;
@@ -210,7 +210,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#apps .app-item .app-download {
+#apps-container .app-item .app-download {
   margin-left: 120px;
 }
 /* Loader */

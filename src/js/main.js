@@ -4,6 +4,24 @@
   var isValidLocation = false;
   var countryCode;
 
+  // Cache DOM
+  var $window = $(window);
+  var $htmlAndBody = $('html, body');
+  var $backgroundVideo = $('#background-video');
+  var $purposeLabel = $('#purpose-label');
+  var $purposeText = $('#purpose-text');
+  var $purposeList = $('#purpose-list');
+  var $dropdownItems = $('.dropdown-item');
+  var $topBtn = $('#top-btn');
+  var $locateBtn = $('#locate-btn');
+  var $searchBtn = $('#search-btn');
+  var $searchFrom = $('#search-form');
+  var $cityInput = $('#city-input');
+  var $appsContainer = $('#apps-container');
+  var $appsList = $('#apps-list');
+  var $searchLoader = $('#search-loader');
+  var $message = $('#message');
+
   function initAutocomplete() {
     // Initialize Autocomplete
     autocomplete = new google.maps.places.Autocomplete(
@@ -26,65 +44,66 @@
     });
 
     // Fade in video background
-    $("#background-video").css('opacity', 0).animate( { opacity: 1 }, 2500);
+    $backgroundVideo.css('opacity', 0).animate( { opacity: 1 }, 2500);
 
     // Listen to place change on Autocomplete
     autocomplete.addListener('place_changed', getPlace);
 
     // Open custom dropdown
-    $('#purpose-label').on('click', function () {
-      $('#purpose-list').toggleClass('dropdown-open');
+    $purposeLabel.on('click', function () {
+      $purposeList.toggleClass('dropdown-open');
     });
 
     // Stop scrolling animation when user scrolls
-    $("html, body").bind("scroll mousedown DOMMouseScroll mousewheel keyup", function(){
-      $('html, body').stop();
+    $htmlAndBody.bind("scroll mousedown DOMMouseScroll mousewheel keyup", function(){
+      $htmlAndBody.stop();
     });
 
-    //Check to see if the window is top if not then display button
-    $(window).scroll(function(){
-      if ($(this).scrollTop() > $(window).height() * 1.5) {
-        $('#top-btn').fadeIn();
+    //Check to see if the window is top if not then display scroll to top button
+    $window.scroll(function(){
+      if ($(this).scrollTop() > $window.height() * 1.5) {
+        $topBtn.fadeIn();
       } else {
-        $('#top-btn').fadeOut();
+        $topBtn.fadeOut();
       }
     });
 
     //Click event to scroll to top
-    $('#top-btn').click(function(){
-      $('html, body').animate({scrollTop : 0}, 800);
+    $topBtn.click(function(){
+      $htmlAndBody.animate({scrollTop : 0}, 800);
       return false;
     });
 
     // Close custom dropdown when clicked outside
-    $(window).click(function (event) {
+    $window.click(function (event) {
       if (!event.target.matches('#purpose-label') &&
           !event.target.matches('#purpose-text') &&
           !event.target.matches('#dropdown-icon')) {
-        if($('#purpose-list').hasClass('dropdown-open')) {
-          $('#purpose-list').removeClass('dropdown-open');
+        if($purposeList.hasClass('dropdown-open')) {
+          $purposeList.removeClass('dropdown-open');
         }
       }
     });
 
-    $('.dropdown-item').click(function () {
+    $dropdownItems.click(function () {
       var genreId = $(this).data('genreid');
       var purpose = $(this).text();
-      $('#purpose-label').data('genreid', genreId);
-      $('#purpose-text').text(purpose);
+      $purposeLabel.data('genreid', genreId);
+      console.log($purposeLabel.data('genreid'));
+      $purposeText.text(purpose);
     });
 
-    $('#locate-btn').click(function (event) {
+    $locateBtn.click(function (event) {
       event.preventDefault();
       getCurrentPosition();
     });
 
-    $('#search-btn').click(function (event) {
+    $searchBtn.click(function (event) {
       event.preventDefault();
-      $('#search-form').submit();
+      $searchFrom.submit();
     });
 
-    $('#search-form').submit(function (event) {
+    $searchFrom.submit(function (event) {
       event.preventDefault();
       searchApps();
     });
@@ -116,9 +135,9 @@
     }
 
     if (navigator.geolocation) {
-      $('#city-input').attr('placeholder', 'Locating...');
-      $('#city-input').val('');
-      $('#city-input').prop('disabled', true);
+      $cityInput.attr('placeholder', 'Locating...');
+      $cityInput.val('');
+      $cityInput.prop('disabled', true);
 
       navigator.geolocation.getCurrentPosition(function(position) {
         var lat = position.coords.latitude;
@@ -137,27 +156,27 @@
                   var addressComponents = addressItem.address_components;
                   var formattedCityText = formatCityInputText(formattedAddress, addressComponents, true);
                   fillInCityInput(formattedCityText);
-                  $('#city-input').prop('disabled', false);
+                  $cityInput.prop('disabled', false);
                   return;
                 }
               });
             } else {
               showMessage('No results found.');
-              $('#city-input').prop('disabled', false);
-              $('#city-input').attr('placeholder', '');
+              $cityInput.prop('disabled', false);
+              $cityInput.attr('placeholder', '');
               isValidLocation = false;
             }
           } else {
             alert("Geocoder failed due to: " + status);
-            $('#city-input').prop('disabled', false);
-            $('#city-input').attr('placeholder', '');
+            $cityInput.prop('disabled', false);
+            $cityInput.attr('placeholder', '');
             isValidLocation = false;
           }
         });
 
       }, function(error) {
-        $('#city-input').prop('disabled', false);
-        $('#city-input').attr('placeholder', '');
+        $cityInput.prop('disabled', false);
+        $cityInput.attr('placeholder', '');
         showMessage('Your location detection is disabled.');
         isValidLocation = false;
       });
@@ -200,8 +219,8 @@
   }
 
   function fillInCityInput(cityInputText) {
-    $('#city-input').animate({color: 'transparent'}, 300, function () {
-      $('#city-input').val(cityInputText).animate({color: '#FAFAFA'}, 300, function () {
+    $cityInput.animate({color: 'transparent'}, 300, function () {
+      $cityInput.val(cityInputText).animate({color: '#FAFAFA'}, 300, function () {
         searchApps();
       });
     });
@@ -214,19 +233,19 @@
       return;
     }
 
-    $('#apps').show();
-    $('#apps-list').empty();
+    $appsContainer.show();
+    $appsList.empty();
     hideMessage();
-    $('.loader').css("display", "block");
-    scrollTo('#apps');
+    $searchLoader.css("display", "block");
+    scrollTo('#apps-container');
 
     requestApps();
   }
 
   function requestApps() {
     var term;
-    var genreId = $('#purpose-label').data('genreid');
-    var cityInputValue =  $('#city-input').val();
+    var genreId = $purposeLabel.data('genreid');
+    var cityInputValue =  $cityInput.val();
 
     if (cityInputValue.indexOf(',') ===  -1) {
       term = cityInputValue;
@@ -250,8 +269,8 @@
         populateList(rankedList);
       }
 
-      $('.loader').css("display", "none");
-      scrollTo('#apps');
+      $searchLoader.css("display", "none");
+      scrollTo('#apps-container');
     });
   }
 
@@ -259,7 +278,7 @@
   function rankApps(results, term) {
     var city = term;
     var cityRegex = new RegExp(city, "gi");
-    var purpose = $('#purpose-text').text();
+    var purpose = $purposeText.text();
     var purposeRegex = new RegExp(purpose, "gi");
 
     for (var i = 0; i < results.length; i++) {
@@ -326,7 +345,7 @@
     for (var i = 0; i < list.length; i++) {
       var app = list[i];
 
-      $('#apps-list').append(
+      $appsList.append(
         $('<article/>', {'class': 'app-item'}).append(
           $('<img/>', {'class': 'app-img'}).attr('src', app.artworkUrl100)
         ).append(
@@ -348,22 +367,21 @@
   }
 
   function showMessage(message) {
-    $('#apps').show();
-    $('#apps-list').empty();
-    $('#message').show().text(message);
+    $appsContainer.show();
+    $appsList.empty();
+    $message.show().text(message);
     scrollTo('#message');
   }
 
   function hideMessage() {
-    $('#message').hide();
+    $message.hide();
   }
 
   function scrollTo(tag) {
     if (tag === 'bottom') {
-
     } else {
-      $('html, body').stop();
-      $('html, body').animate({
+      $htmlAndBody.stop();
+      $htmlAndBody.animate({
           scrollTop: $(tag).offset().top
       }, 800);
     }
@@ -381,7 +399,7 @@
       if (type == "keydown") {
         var orig_listener = listener;
         listener = function (event) {
-        var suggestion_selected = $(".pac-item-selected").length > 0;
+        var suggestion_selected = $('.pac-item-selected').length > 0;
           if (event.which == 13 && !suggestion_selected) { var simulated_downarrow = $.Event("keydown", {keyCode:40, which:40}); orig_listener.apply(input, [simulated_downarrow]); }
           orig_listener.apply(input, [event]);
         };
