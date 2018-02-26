@@ -45,5 +45,13 @@ gulp.task('copy-assets', function() {
     .pipe(gulp.dest('dist/assets'));
 });
 
+// Watch Files For Changes
+gulp.task('watch', function() {
+    gulp.watch('src/index.html', ['copy-html']);
+    gulp.watch('src/less/*.less', ['less', 'minify-css']);
+    gulp.watch('src/js/*.js', ['minify-js']);
+    gulp.watch('src/assets/**', ['copy-assets']);
+});
+
 // Run everything
-gulp.task('default', ['less', 'minify-css', 'minify-js', 'copy-html', 'copy-assets']);
+gulp.task('default', ['less', 'minify-css', 'minify-js', 'copy-html', 'copy-assets', 'watch']);
