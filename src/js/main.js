@@ -1,4 +1,4 @@
-(function ($, window, document) {
+var App = (function ($, window, document) {
   var autocomplete, geocoder;
   var currentCity;
   var isValidLocation = false;
@@ -22,7 +22,7 @@
   var $searchLoader = $('#search-loader');
   var $message = $('#message');
 
-  function initAutocomplete() {
+  function init() {
     // Initialize Google Places Autocomplete
     autocomplete = new google.maps.places.Autocomplete(
       (document.getElementById('city-input')),
@@ -50,7 +50,6 @@
     initAppCategoryDropdown();
 
     /* Event Binding */
-
     // Listen to place change on Autocomplete
     autocomplete.addListener('place_changed', getPlace);
 
@@ -450,7 +449,7 @@
     if (input.addEventListener) { input.addEventListener = addEventListenerWrapper; } else if (input.attachEvent) { input.attachEvent = addEventListenerWrapper; }
   }
 
-  // Set initAutocomplete in the revealing module
-  revealingModule = { initAutocomplete: initAutocomplete };
+  // Set revealing module
+  return { init: init };
 
 })(window.jQuery, window, document);
