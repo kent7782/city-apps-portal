@@ -23,13 +23,13 @@
   var $message = $('#message');
 
   function initAutocomplete() {
-    // Initialize Autocomplete
+    // Initialize Google Places Autocomplete
     autocomplete = new google.maps.places.Autocomplete(
       (document.getElementById('city-input')),
       { types: ['(cities)'] }
     );
 
-    // Initialize Geocoder
+    // Initialize Google Maps Geocoder
     geocoder = new google.maps.Geocoder();
 
     // Set Autocomplete to slelect first item on 'enter'
@@ -44,7 +44,12 @@
     });
 
     // Fade in video background
-    $backgroundVideo.css('opacity', 0).animate( { opacity: 1 }, 2500);
+    $backgroundVideo.css('opacity', 0).animate( { opacity: 1 }, 2800);
+
+    // Initialize app category custom dropdown menu
+    initAppCategoryDropdown();
+
+    /* Event Binding */
 
     // Listen to place change on Autocomplete
     autocomplete.addListener('place_changed', getPlace);
@@ -74,6 +79,16 @@
       return false;
     });
 
+    $purposeList.click(function (event) {
+      if (event.target.matches('.dropdown-item')) {
+        var $target = $(event.target);
+        var genreId = $target.data('genreid');
+        var purpose = $target.text();
+        $purposeLabel.data('genreid', genreId);
+        $purposeText.text(purpose);
+      }
+    });
+
     // Close custom dropdown when clicked outside
     $window.click(function (event) {
       if (!event.target.matches('#purpose-label') &&
@@ -83,14 +98,6 @@
           $purposeList.removeClass('dropdown-open');
         }
       }
-    });
-
-    $dropdownItems.click(function () {
-      var genreId = $(this).data('genreid');
-      var purpose = $(this).text();
-      $purposeLabel.data('genreid', genreId);
-      console.log($purposeLabel.data('genreid'));
-      $purposeText.text(purpose);
     });
 
     $locateBtn.click(function (event) {
@@ -106,6 +113,40 @@
     $searchFrom.submit(function (event) {
       event.preventDefault();
       searchApps();
+    });
+  }
+
+  function initAppCategoryDropdown() {
+    var appCategories = [
+      { genreid: '6003', name: 'Travel' },
+      { genreid: '6000', name: 'Business' },
+      { genreid: '6023', name: 'Food and Drink' },
+      { genreid: '6016', name: 'Entertainment' },
+      { genreid: '6011', name: 'Music' },
+      { genreid: '6012', name: 'Lifestyle' },
+      { genreid: '6004', name: 'Sports' },
+      { genreid: '6005', name: 'Social Networking' },
+      { genreid: '6009', name: 'News' },
+      { genreid: '6015', name: 'Finance' },
+      { genreid: '6020', name: 'Medical' },
+      { genreid: '6013', name: 'Health and Fitness' },
+      { genreid: '6010', name: 'Navigation' },
+      { genreid: '6001', name: 'Weather' },
+      { genreid: '6002', name: 'Utilities' },
+      { genreid: '6008', name: 'Photo and Video' },
+      { genreid: '6014', name: 'Games' },
+      { genreid: '6007', name: 'Productivity' },
+      { genreid: '6017', name: 'Education' },
+      { genreid: '6018', name: 'Books' },
+      { genreid: '6021', name: 'Newsstand' },
+      { genreid: '6006', name: 'Reference' },
+      { genreid: '6022', name: 'Catalogs' }
+    ];
+
+    appCategories.forEach(function (item) {
+      $purposeList.append(
+        $('<li/>', {'class': 'dropdown-item', 'data-genreid': item.genreid, 'text': item.name})
+      );
     });
   }
 
