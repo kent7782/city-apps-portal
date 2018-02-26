@@ -382,10 +382,12 @@ var App = (function ($, window, document) {
       return;
     }
 
+    // Use fragment to avoid reflow
+    var $documentFragment = $(document.createDocumentFragment());
+
     for (var i = 0; i < list.length; i++) {
       var app = list[i];
-
-      $appsList.append(
+      $documentFragment.append(
         $('<article/>', {'class': 'app-item'}).append(
           $('<img/>', {'class': 'app-img'}).attr('src', app.artworkUrl100)
         ).append(
@@ -404,6 +406,7 @@ var App = (function ($, window, document) {
         .append($('<br>'))
       );
     }
+    $appsList.append($documentFragment);
   }
 
   function showMessage(message) {
@@ -433,14 +436,19 @@ var App = (function ($, window, document) {
     By: Basj
     Source: https://stackoverflow.com/questions/14601655/google-places-autocomplete-pick-first-result-on-enter-key
   */
-  function selectFirstOnEnter(input) {      // store the original event binding function
-      var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
-      function addEventListenerWrapper(type, listener) { // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected, and then trigger the original listener.
+  function selectFirstOnEnter(input) {
+    // store the original event binding function
+    var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
+    function addEventListenerWrapper(type, listener) {
+      // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected, and then trigger the original listener.
       if (type == "keydown") {
         var orig_listener = listener;
         listener = function (event) {
         var suggestion_selected = $('.pac-item-selected').length > 0;
-          if (event.which == 13 && !suggestion_selected) { var simulated_downarrow = $.Event("keydown", {keyCode:40, which:40}); orig_listener.apply(input, [simulated_downarrow]); }
+          if (event.which == 13 && !suggestion_selected) {
+            var simulated_downarrow = $.Event("keydown", {keyCode:40, which:40});
+            orig_listener.apply(input, [simulated_downarrow]);
+          }
           orig_listener.apply(input, [event]);
         };
       }
